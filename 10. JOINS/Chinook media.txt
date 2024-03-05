@@ -1,0 +1,13 @@
+SET search_path TO chinook;
+
+SELECT album_title, track_name, milliseconds
+FROM (
+    SELECT 
+        a."Title" AS album_title,
+        t."Name" AS track_name,
+        t."Milliseconds" AS milliseconds,
+        ROW_NUMBER() OVER (PARTITION BY a."AlbumId" ORDER BY t."Milliseconds" DESC) AS track_rank
+    FROM "Album" a
+    INNER JOIN "Track" t ON a."AlbumId" = t."AlbumId"
+) ranked_tracks
+WHERE track_rank <= 2;
