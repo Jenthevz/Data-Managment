@@ -1,0 +1,6 @@
+SET search_path TO chinook;
+SELECT ar."ArtistId", COUNT(tr."TrackId"), count(al."AlbumId")
+FROM "Album" al
+INNER JOIN "Artist" ar USING ("ArtistId")
+INNER JOIN "Track" tr USING ("AlbumId")
+GROUP BY ar."ArtistId";
